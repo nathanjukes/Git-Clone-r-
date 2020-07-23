@@ -26,9 +26,15 @@ namespace Git_Clone_r_.API_Classes
             {
                 //Get private repos
             }
+            else if(type == "self")
+            {
+                _gitLinks = GetRepoLinks(_userSettings["defaultUsername"]);
+                PromptForUserChoice();
+            }
+            
         }
 
-        public static Dictionary<string, string> GetPublicRepos() //From a user
+        private static Dictionary<string, string> GetPublicRepos() //From a user
         {
             //Prompt for username to clone from
             Console.WriteLine("Please input the user you wish to clone from: ");
@@ -63,7 +69,7 @@ namespace Git_Clone_r_.API_Classes
                 Console.WriteLine($"{i+1}) {_gitLinks.ElementAt(i).Key}");
             }
 
-            Console.WriteLine("\n[ '1' - Clones the first repo || '1-5' - Clones the repos within that range (inclusively) || 'X' - Clones every repo ]\n\nPlease input beneath:");
+            Console.WriteLine("\n[ '1' - Clones the first repo ]\n[ '1-5' - Clones the repos within that range (inclusively) ]\n[ 'X' - Clones every repo ]\n\nPlease input beneath:");
 
             string userInput = Console.ReadLine().Trim();
 
@@ -115,7 +121,7 @@ namespace Git_Clone_r_.API_Classes
         private static void Clone(string cloneLink)
         {
             Console.WriteLine($"\n{cloneLink}");
-            Process process = Process.Start("CMD.EXE", $@"/C {_userSettings["defaultDirectory"].Substring(0, 1)}:&&cd {_userSettings["defaultDirectory"]}&&git clone https://github.com/nathanjukes/nathanjukes.git {_gitLinks.Where(x => x.Value == cloneLink).FirstOrDefault().Key}&&echo Repo Cloned to {_userSettings["defaultDirectory"]}");
+            Process process = Process.Start("CMD.EXE", $@"/C {_userSettings["defaultDirectory"].Substring(0, 1)}:&&cd {_userSettings["defaultDirectory"]}&&git clone {cloneLink} {_gitLinks.Where(x => x.Value == cloneLink).FirstOrDefault().Key}&&echo Repo Cloned to {_userSettings["defaultDirectory"]}");
             process.WaitForExit();
         }
     }

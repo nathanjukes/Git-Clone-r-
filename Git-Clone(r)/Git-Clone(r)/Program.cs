@@ -33,6 +33,9 @@ namespace Git_Clone_r_
                     case 2:
                         GetRepos.CloneRepos("public", userSettings);
                         break;
+                    case 4:
+                        GetRepos.CloneRepos("self", userSettings);
+                        break;
                     case 5:
                         UserInputHandling.SetDefaultDir(userSettings);
                         break;
@@ -83,10 +86,10 @@ namespace Git_Clone_r_
             Console.ForegroundColor = ConsoleColor.Gray;  
 
             Console.WriteLine("\n\nGit Clone(r) Menu:\n\n    " +
-                "1: Clone your repositories\n    " +
+                "1: Clone your repositories (Includes the private repos)\n    " +
                 "2: Clone a user's repositories\n    " + //^Have an inside one saying which repo to clone and then have an X for all
                 "3: Clone a selected repository\n    " +
-                "4: Clone from your default user\n    " + 
+                "4: Clone from the default user\n    " + 
                 "5: Set default clone directory\n    " +
                 "6: Check default clone directory\n    " + //Does an 'ls' on the dir
                 "7: Open default clone directory\n    " +
