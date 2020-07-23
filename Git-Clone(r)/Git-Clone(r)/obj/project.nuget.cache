@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "ZL+k2qxr8wkiv1reTMJJIuXknoiGoxcHanHpOXAlTXKXMGjj53FBHhie2KRJH2FDae1ISADj5dS6rmHuNEOQ3Q==",
+  "success": true,
+  "projectFilePath": "E:\\coding\\GitHub\\Repos\\Git-Clone-r-\\Git-Clone(r)\\Git-Clone(r)\\Git-Clone(r).csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Nathan Jukes\\.nuget\\packages\\newtonsoft.json\\12.0.3\\newtonsoft.json.12.0.3.nupkg.sha512"
+  ],
+  "logs": []
+}
