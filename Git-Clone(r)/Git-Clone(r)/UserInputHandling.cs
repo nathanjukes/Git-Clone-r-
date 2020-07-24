@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Text;
+using System.Threading;
 
 namespace Git_Clone_r_
 {
@@ -55,15 +56,51 @@ namespace Git_Clone_r_
 
         public static void OpenDefDir(Dictionary<string, string> userSettings)
         {
-            if(!string.IsNullOrWhiteSpace(userSettings["defaultDirectory"]))
+            if (!CheckIfDirNull(userSettings))
             {
                 Process process = Process.Start("explorer.exe", $@"/open, {userSettings["defaultDirectory"]}");
                 Console.WriteLine("Default Directory opened in file explorer.\n");
                 process.WaitForExit();
             }
+        }
+
+        public static void CheckDefaultDir(Dictionary<string, string> userSettings)
+        {
+            if(!CheckIfDirNull(userSettings))
+            {
+                Console.WriteLine("\nShowing default directory data: \n");
+
+                string[] directoryOutput =  Directory.GetFileSystemEntries(userSettings["defaultDirectory"]);
+
+                foreach(var i in directoryOutput)
+                {
+                    string item = i;
+
+                    if(string.IsNullOrWhiteSpace(Path.GetExtension(item)))
+                    {
+                        item = item.Replace(userSettings["defaultDirectory"] + @"\", "");
+                        item += " (Folder)";
+                    }
+                    else
+                    {
+                        item = item.Replace(userSettings["defaultDirectory"] + @"\", "");
+                    }
+
+                    Console.WriteLine(item);
+                }
+            }
+        }
+
+        private static bool CheckIfDirNull(Dictionary<string, string> userSettings)
+        {
+            if (!string.IsNullOrWhiteSpace(userSettings["defaultDirectory"]))
+            {
+                return false;
+            }
             else
             {
                 Console.WriteLine("Error: No default directory set");
+                return true;
             }
         }
     }

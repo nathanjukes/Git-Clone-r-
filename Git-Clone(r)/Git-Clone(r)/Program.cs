@@ -19,13 +19,13 @@ namespace Git_Clone_r_
 
             bool menuActive = true;
 
-            while(menuActive)
+            while (menuActive)
             {
                 DisplayMenu();
 
                 int selection = Convert.ToInt32(Console.ReadLine());
 
-                switch(selection)
+                switch (selection)
                 {
                     case 1:
                         //GetRepos.CloneRepos("public");
@@ -41,12 +41,18 @@ namespace Git_Clone_r_
                         break;
                     case 5:
                         UserInputHandling.SetDefaultDir(userSettings);
+                        WaitForUser();
+                        break;
+                    case 6:
+                        UserInputHandling.CheckDefaultDir(userSettings);
+                        WaitForUser();
                         break;
                     case 7:
                         UserInputHandling.OpenDefDir(userSettings);
                         break;
                     case 8:
                         UserInputHandling.SetDefaultUser(userSettings);
+                        WaitForUser();
                         break;
                     case 11:
                         menuActive = false;
@@ -84,18 +90,18 @@ namespace Git_Clone_r_
                     Console.WriteLine($"(0) DEFAULT USER: {userSettings["defaultUsername"]}");
                 }
             }
-            catch(System.Collections.Generic.KeyNotFoundException)
+            catch (System.Collections.Generic.KeyNotFoundException)
             {
                 Console.WriteLine("(!) UserSettings.json NOT FOUND");
             }
-            
-            Console.ForegroundColor = ConsoleColor.Gray;  
+
+            Console.ForegroundColor = ConsoleColor.Gray;
 
             Console.WriteLine("\n\nGit Clone(r) Menu:\n\n    " +
                 "1: Clone your repositories (Includes the private repos)\n    " +
                 "2: Clone a user's repositories\n    " + //^Have an inside one saying which repo to clone and then have an X for all
                 "3: Clone a selected repository\n    " +
-                "4: Clone from the default user\n    " + 
+                "4: Clone from the default user\n    " +
                 "5: Set default clone directory\n    " +
                 "6: Check default clone directory\n    " + //Does an 'ls' on the dir
                 "7: Open default clone directory\n    " +
@@ -120,6 +126,12 @@ namespace Git_Clone_r_
             Console.ForegroundColor = ConsoleColor.DarkGreen;
             Console.WriteLine(" Made by Nathan Jukes: https://github.com/nathanjukes\n\n");
             Console.ForegroundColor = ConsoleColor.Gray;
+        }
+
+        private static void WaitForUser()
+        {
+            Console.WriteLine("\nPress any key to continue");
+            Console.ReadKey();
         }
     }
 }

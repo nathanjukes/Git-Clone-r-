@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Runtime.CompilerServices;
+using System.Threading;
 
 namespace Git_Clone_r_.API_Classes
 {
@@ -87,19 +88,18 @@ namespace Git_Clone_r_.API_Classes
             while(!finalPage)
             {
                 if (_gitLinks.Count + 100 > repoCount)
-                {
-                    Console.WriteLine(_gitLinks.Count);
+                { 
                     finalPage = true;
                 }
 
                 try
-                { 
-                    data = wc.DownloadString($"https://api.github.com/users/{username}/repos?page={currentPage.ToString()}&per_page=100");
+                {
+                    data = wc.DownloadString($"https://api.github.com/users/{username}/repos?page={currentPage}&per_page=100");
                 }
                 catch (System.Net.WebException)
                 {
-                    Console.WriteLine($"fatal: username '{username}' does not exist");
-                    return new Dictionary<string, string>();
+                    Console.WriteLine($"fatal: could not get page {currentPage} for '{username}'");
+                    return _gitLinks;
                 }
 
                 dynamic dataDeserialized = JsonConvert.DeserializeObject<dynamic>(data);
