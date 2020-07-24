@@ -20,6 +20,12 @@ namespace Git_Clone_r_.API_Classes
             if(type == "public")
             {
                 _gitLinks = GetPublicRepos();
+
+                if(CheckForNullRepos())
+                {
+                    return;
+                }
+
                 PromptForUserChoice();
             }
             else if(type == "private")
@@ -29,6 +35,12 @@ namespace Git_Clone_r_.API_Classes
             else if(type == "self")
             {
                 _gitLinks = GetRepoLinks(_userSettings["defaultUsername"]);
+
+                if (CheckForNullRepos())
+                {
+                    return;
+                }
+
                 PromptForUserChoice();
             }
             
@@ -47,17 +59,62 @@ namespace Git_Clone_r_.API_Classes
             _gitLinks = new Dictionary<string, string>();
 
             WebClient wc = new WebClient();
-            wc.Headers.Add("user-agent", "*"); //Github was throwing 403 forbidden due to no user-agent header so I had to add this - it means nothing
-            string data = wc.DownloadString($"https://api.github.com/users/{username}/repos");
+            wc.Headers.Add("User-Agent", "*"); //Github was throwing 403 forbidden due to no user-agent header so I had to add this - it means nothing
 
-            dynamic dataDeserialized = JsonConvert.DeserializeObject<dynamic>(data);
+            string data;
+            int currentPage = 1;
+            int repoCount = 265;
+            bool finalPage = false;
 
-            foreach(var i in dataDeserialized)
+            try
             {
-                _gitLinks.Add(i.name.ToString(), i.clone_url.ToString());
+                WebClient wcTemp = new WebClient();
+                wcTemp.Headers.Add("user-agent", "****");
+                string userData = wcTemp.DownloadString($"https://api.github.com/users/{username}");
+                dynamic jsonData = JsonConvert.DeserializeObject<dynamic>(userData);
+                repoCount = jsonData.public_repos;
+            }
+            catch (System.Net.WebException) { };
+
+            while(!finalPage)
+            {
+                if (_gitLinks.Count + 100 > repoCount)
+                {
+                    Console.WriteLine(_gitLinks.Count);
+                    finalPage = true;
+                }
+
+                try
+                { 
+                    data = wc.DownloadString($"https://api.github.com/users/{username}/repos?page={currentPage.ToString()}&per_page=100");
+                }
+                catch (System.Net.WebException)
+                {
+                    Console.WriteLine($"fatal: username '{username}' does not exist");
+                    return new Dictionary<string, string>();
+                }
+
+                dynamic dataDeserialized = JsonConvert.DeserializeObject<dynamic>(data);
+
+                foreach (var i in dataDeserialized)
+                {
+                    _gitLinks.Add(i.name.ToString(), i.clone_url.ToString());
+                }
+
+                currentPage++;
             }
 
             return _gitLinks;
+        }
+
+        public static void PromptForRepoLink(Dictionary<string, string> userSetting)
+        {
+            _userSettings = userSetting;
+
+            Console.WriteLine("Please input the link of the repo you wish to clone: ");
+            string cloneLink = Console.ReadLine();
+
+            Clone(cloneLink);
         }
 
         private static void PromptForUserChoice()
@@ -121,8 +178,18 @@ namespace Git_Clone_r_.API_Classes
         private static void Clone(string cloneLink)
         {
             Console.WriteLine($"\n{cloneLink}");
-            Process process = Process.Start("CMD.EXE", $@"/C {_userSettings["defaultDirectory"].Substring(0, 1)}:&&cd {_userSettings["defaultDirectory"]}&&git clone {cloneLink} {_gitLinks.Where(x => x.Value == cloneLink).FirstOrDefault().Key}&&echo Repo Cloned to {_userSettings["defaultDirectory"]}");
+            Process process = Process.Start("CMD.EXE", $@"/C {_userSettings["defaultDirectory"].Substring(0, 1)}:&&cd {_userSettings["defaultDirectory"]}&&git clone {cloneLink}&&echo Repo Cloned to {_userSettings["defaultDirectory"]}");
             process.WaitForExit();
+        }
+
+        private static bool CheckForNullRepos()
+        {
+            if (_gitLinks.Count == 0)
+            {
+                Console.WriteLine("No Repos Available");
+                return true;
+            }
+            return false;
         }
     }
 }

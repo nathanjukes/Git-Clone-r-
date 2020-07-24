@@ -33,6 +33,9 @@ namespace Git_Clone_r_
                     case 2:
                         GetRepos.CloneRepos("public", userSettings);
                         break;
+                    case 3:
+                        GetRepos.PromptForRepoLink(userSettings);
+                        break;
                     case 4:
                         GetRepos.CloneRepos("self", userSettings);
                         break;
@@ -102,6 +105,7 @@ namespace Git_Clone_r_
         {
             Console.ForegroundColor = ConsoleColor.Green;
 
+            Console.WriteLine();
             Console.WriteLine(@"   _____   _   _               _____   _                           __        __  
   / ____| (_) | |             / ____| | |                         / /        \ \ 
  | |  __   _  | |_   ______  | |      | |   ___    _ __     ___  | |   _ __   | |
