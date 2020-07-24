@@ -42,6 +42,9 @@ namespace Git_Clone_r_
                     case 5:
                         UserInputHandling.SetDefaultDir(userSettings);
                         break;
+                    case 7:
+                        UserInputHandling.OpenDefDir(userSettings);
+                        break;
                     case 8:
                         UserInputHandling.SetDefaultUser(userSettings);
                         break;

@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Text;
 
@@ -50,6 +51,20 @@ namespace Git_Clone_r_
 
             string serializedUserSettings = JsonConvert.SerializeObject(userSettings);
             File.WriteAllText("UserSettings.json", serializedUserSettings);
+        }
+
+        public static void OpenDefDir(Dictionary<string, string> userSettings)
+        {
+            if(!string.IsNullOrWhiteSpace(userSettings["defaultDirectory"]))
+            {
+                Process process = Process.Start("explorer.exe", $@"/open, {userSettings["defaultDirectory"]}");
+                Console.WriteLine("Default Directory opened in file explorer.\n");
+                process.WaitForExit();
+            }
+            else
+            {
+                Console.WriteLine("Error: No default directory set");
+            }
         }
     }
 }

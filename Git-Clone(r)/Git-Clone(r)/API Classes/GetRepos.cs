@@ -34,7 +34,15 @@ namespace Git_Clone_r_.API_Classes
             }
             else if(type == "self")
             {
-                _gitLinks = GetRepoLinks(_userSettings["defaultUsername"]);
+                if(!string.IsNullOrWhiteSpace(_userSettings["defaultUsername"]))
+                {
+                    _gitLinks = GetRepoLinks(_userSettings["defaultUsername"]);
+                }
+                else
+                {
+                    Console.WriteLine("Error: No default user set");
+                }
+                
 
                 if (CheckForNullRepos())
                 {
