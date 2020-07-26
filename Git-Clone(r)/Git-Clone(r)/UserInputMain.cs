@@ -10,12 +10,12 @@ namespace Git_Clone_r_
 {
     class UserInputMain
     {
-        private static Dictionary<string, string> userSettings;
+        private static Dictionary<string, string> _userSettings;
 
         static void Main(string[] args)
         {
             string userSettingsJson = File.ReadAllText("UserSettings.json");
-            userSettings = JsonConvert.DeserializeObject<Dictionary<string, string>>(userSettingsJson);
+            _userSettings = JsonConvert.DeserializeObject<Dictionary<string, string>>(userSettingsJson);
 
             bool menuActive = true;
 
@@ -29,30 +29,30 @@ namespace Git_Clone_r_
                 switch (selection)
                 {
                     case "1":
-                        GetRepos.CloneRepos("private", userSettings);
+                        GetRepos.CloneRepos("private", _userSettings);
                         break;
                     case "2":
-                        GetRepos.CloneRepos("public", userSettings);
+                        GetRepos.CloneRepos("public", _userSettings);
                         break;
                     case "3":
-                        GetRepos.PromptForRepoLink(userSettings);
+                        GetRepos.PromptForRepoLink(_userSettings);
                         break;
                     case "4":
-                        GetRepos.CloneRepos("self", userSettings);
+                        GetRepos.CloneRepos("self", _userSettings);
                         break;
                     case "5":
-                        UserInputHandling.SetDefaultDir(userSettings);
+                        UserInputHandling.SetDefaultDir(_userSettings);
                         WaitForUser();
                         break;
                     case "6":
-                        UserInputHandling.CheckDefaultDir(userSettings);
+                        UserInputHandling.CheckDefaultDir(_userSettings);
                         WaitForUser();
                         break;
                     case "7":
-                        UserInputHandling.OpenDefDir(userSettings);
+                        UserInputHandling.OpenDefDir(_userSettings);
                         break;
                     case "8":
-                        UserInputHandling.SetDefaultUser(userSettings);
+                        UserInputHandling.SetDefaultUser(_userSettings);
                         WaitForUser();
                         break;
                     case "11":
@@ -73,25 +73,25 @@ namespace Git_Clone_r_
 
             try
             {
-                if (string.IsNullOrWhiteSpace(userSettings["defaultDirectory"]))
+                if (string.IsNullOrWhiteSpace(_userSettings["defaultDirectory"]))
                 {
                     Console.WriteLine("(!) DEFAULT CLONE DIRECTORY NOT SET");
                 }
                 else
                 {
                     Console.ForegroundColor = ConsoleColor.DarkGreen;
-                    Console.WriteLine($"(0) DEFAULT CLONE DIRECTORY: {userSettings["defaultDirectory"]}");
+                    Console.WriteLine($"(0) DEFAULT CLONE DIRECTORY: {_userSettings["defaultDirectory"]}");
                     Console.ForegroundColor = ConsoleColor.Red;
                 }
 
-                if (string.IsNullOrWhiteSpace(userSettings["defaultUsername"]))
+                if (string.IsNullOrWhiteSpace(_userSettings["defaultUsername"]))
                 {
                     Console.WriteLine("(!) DEFAULT USER TO CLONE FROM NOT SET");
                 }
                 else
                 {
                     Console.ForegroundColor = ConsoleColor.DarkGreen;
-                    Console.WriteLine($"(0) DEFAULT USER: {userSettings["defaultUsername"]}");
+                    Console.WriteLine($"(0) DEFAULT USER: {_userSettings["defaultUsername"]}");
                 }
             }
             catch (System.Collections.Generic.KeyNotFoundException)
