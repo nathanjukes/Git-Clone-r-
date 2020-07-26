@@ -123,6 +123,38 @@ namespace Git_Clone_r_.API_Classes
             return _gitLinks;
         }
 
+        //Uses Github Authorization Code Flow for Getting an OAuth token to access Private Repos
+        private static Dictionary<string, string> GetPrivateRepos(string username)
+        {
+            WebClient wc = new WebClient();
+            _gitLinks = new Dictionary<string, string>();
+
+            string OAuthToken = AuthorizationCodeFlow.ReturnOAuthToken(_userSettings);
+            wc.Headers.Add("Authorization", $"token {OAuthToken}");
+            wc.Headers.Add("User-Agent", "*");
+
+            string data;
+
+            try
+            {
+                data = wc.DownloadString("https://api.github.com/user/repos");
+            }
+            catch (System.Net.WebException)
+            {
+                Console.WriteLine($"fatal: could not get private repos from '{username}'");
+                return _gitLinks;
+            }
+
+            dynamic dataDeserialized = JsonConvert.DeserializeObject<dynamic>(data);
+
+            foreach (var i in dataDeserialized)
+            {
+                _gitLinks.Add(i.name.ToString(), i.clone_url.ToString());
+            }
+
+            return _gitLinks;
+        }
+
         public static void PromptForRepoLink(Dictionary<string, string> userSetting)
         {
             _userSettings = userSetting;
@@ -219,38 +251,6 @@ namespace Git_Clone_r_.API_Classes
                 return true;
             }
             return false;
-        }
-
-        //Uses Github Authorization Code Flow for Getting an OAuth token to access Private Repos
-        private static Dictionary<string, string> GetPrivateRepos(string username)
-        {
-            WebClient wc = new WebClient();
-            _gitLinks = new Dictionary<string, string>();
-
-            string OAuthToken = AuthorizationCodeFlow.ReturnOAuthToken(_userSettings);
-            wc.Headers.Add("Authorization", $"token {OAuthToken}");
-            wc.Headers.Add("User-Agent", "*");
-
-            string data;
-
-            try
-            {
-                data = wc.DownloadString("https://api.github.com/user/repos");
-            }
-            catch (System.Net.WebException)
-            {
-                Console.WriteLine($"fatal: could not get private repos from '{username}'");
-                return _gitLinks;
-            }
-
-            dynamic dataDeserialized = JsonConvert.DeserializeObject<dynamic>(data);
-
-            foreach (var i in dataDeserialized)
-            {
-                _gitLinks.Add(i.name.ToString(), i.clone_url.ToString());
-            }
-            
-            return _gitLinks;
         }
     }
 }

@@ -44,7 +44,7 @@ namespace Git_Clone_r_
             {
                 userSettings["defaultUsername"] = username;
             }
-            catch (System.Collections.Generic.KeyNotFoundException)
+            catch (KeyNotFoundException)
             {
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("(!) UserSettings.json NOT FOUND");
