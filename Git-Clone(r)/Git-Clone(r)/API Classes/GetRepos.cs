@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Diagnostics;
 using System.Linq;
 using System.Net;
@@ -18,32 +19,9 @@ namespace Git_Clone_r_.API_Classes
         {
             _userSettings = userSettings;
 
-            if(type == "public")
+            if (type == "public")
             {
                 _gitLinks = GetPublicRepos();
-
-                if(CheckForNullRepos())
-                {
-                    return;
-                }
-
-                PromptForUserChoice();
-            }
-            else if(type == "private")
-            {
-                //Get private repos
-            }
-            else if(type == "self")
-            {
-                if(!string.IsNullOrWhiteSpace(_userSettings["defaultUsername"]))
-                {
-                    _gitLinks = GetRepoLinks(_userSettings["defaultUsername"]);
-                }
-                else
-                {
-                    Console.WriteLine("Error: No default user set");
-                }
-                
 
                 if (CheckForNullRepos())
                 {
@@ -52,13 +30,43 @@ namespace Git_Clone_r_.API_Classes
 
                 PromptForUserChoice();
             }
-            
+            else if (type == "private")
+            {
+                _gitLinks = GetPrivateRepos(_userSettings["defaultUsername"]);
+
+                if (CheckForNullRepos())
+                {
+                    return;
+                }
+
+                PromptForUserChoice();
+            }
+            else if (type == "self")
+            {
+                if (!string.IsNullOrWhiteSpace(_userSettings["defaultUsername"]))
+                {
+                    _gitLinks = GetRepoLinks(_userSettings["defaultUsername"]);
+                }
+                else
+                {
+                    Console.WriteLine("Error: No default user set");
+                }
+
+
+                if (CheckForNullRepos())
+                {
+                    return;
+                }
+
+                PromptForUserChoice();
+            }
+
         }
 
         private static Dictionary<string, string> GetPublicRepos() //From a user
         {
             //Prompt for username to clone from
-            Console.WriteLine("Please input the user you wish to clone from: ");
+            Console.WriteLine("\nPlease input the user you wish to clone from: ");
             string username = Console.ReadLine();
             return GetRepoLinks(username);
         }
@@ -85,10 +93,10 @@ namespace Git_Clone_r_.API_Classes
             }
             catch (System.Net.WebException) { };
 
-            while(!finalPage)
+            while (!finalPage)
             {
                 if (_gitLinks.Count + 100 > repoCount)
-                { 
+                {
                     finalPage = true;
                 }
 
@@ -122,7 +130,14 @@ namespace Git_Clone_r_.API_Classes
             Console.WriteLine("Please input the link of the repo you wish to clone: ");
             string cloneLink = Console.ReadLine();
 
-            Clone(cloneLink);
+            if(string.IsNullOrWhiteSpace(cloneLink))
+            {
+                Console.WriteLine($"fatal: repository '{cloneLink}' does not exist");
+            }
+            else
+            {
+                Clone(cloneLink);
+            }
         }
 
         private static void PromptForUserChoice()
@@ -131,38 +146,38 @@ namespace Git_Clone_r_.API_Classes
 
             for (int i = 0; i < _gitLinks.Count; i++)
             {
-                Console.WriteLine($"{i+1}) {_gitLinks.ElementAt(i).Key}");
+                Console.WriteLine($"{i + 1}) {_gitLinks.ElementAt(i).Key}");
             }
 
-            Console.WriteLine("\n[ '1' - Clones the first repo ]\n[ '1-5' - Clones the repos within that range (inclusively) ]\n[ 'X' - Clones every repo ]\n\nPlease input beneath:");
+            Console.WriteLine("\n[ '1' - Clones the first repo ]\n[ '1-5' - Clones the repos within that range (inclusively) ]\n[ 'A' - Clones every repo ]\n[ 'X' - Return ]\n\nPlease input beneath:");
 
             string userInput = Console.ReadLine().Trim();
 
-            if(userInput.ToUpper() == "X")
+            if (userInput.ToUpper() == "A")
             {
-                Console.WriteLine("\nCloning every repository\n");
+                Console.WriteLine("\nCloning every repository: \n");
 
-                foreach(var i in _gitLinks.Values)
+                foreach (var i in _gitLinks.Values)
                 {
                     Clone(i);
                 }
             }
-            else if(userInput.Contains("-"))
+            else if (userInput.Contains("-"))
             {
                 try
                 {
                     int lowIndex = Convert.ToInt32(userInput.Substring(0, userInput.IndexOf('-')));
                     int highIndex = Convert.ToInt32(userInput.Substring(userInput.IndexOf('-') + 1, userInput.Length - userInput.IndexOf('-') - 1));
 
-                    if(highIndex > _gitLinks.Count || lowIndex <= 0)
+                    if (highIndex > _gitLinks.Count || lowIndex <= 0)
                     {
                         Console.WriteLine("Incorrect Bounds");
                         return;
                     }
 
-                    for(int i = lowIndex; i <= highIndex; i++)
+                    for (int i = lowIndex; i <= highIndex; i++)
                     {
-                        Clone(_gitLinks.ElementAt(i).Value);
+                        Clone(_gitLinks.ElementAt(i - 1).Value);
                     }
                 }
                 catch(Exception e)
@@ -172,11 +187,17 @@ namespace Git_Clone_r_.API_Classes
             }
             else
             {
+                if(userInput.ToUpper() == "X")
+                {
+                    Console.Clear();
+                    return;
+                }
+
                 try
                 {
                     Clone(_gitLinks.ElementAt(Convert.ToInt32(userInput)).Value);
                 }
-                catch(FormatException)
+                catch (FormatException)
                 {
                     Console.WriteLine("Incorrect input");
                 }
@@ -198,6 +219,38 @@ namespace Git_Clone_r_.API_Classes
                 return true;
             }
             return false;
+        }
+
+        //Uses Github Authorization Code Flow for Getting an OAuth token to access Private Repos
+        private static Dictionary<string, string> GetPrivateRepos(string username)
+        {
+            WebClient wc = new WebClient();
+            _gitLinks = new Dictionary<string, string>();
+
+            string OAuthToken = AuthorizationCodeFlow.ReturnOAuthToken(_userSettings);
+            wc.Headers.Add("Authorization", $"token {OAuthToken}");
+            wc.Headers.Add("User-Agent", "*");
+
+            string data;
+
+            try
+            {
+                data = wc.DownloadString("https://api.github.com/user/repos");
+            }
+            catch (System.Net.WebException)
+            {
+                Console.WriteLine($"fatal: could not get private repos from '{username}'");
+                return _gitLinks;
+            }
+
+            dynamic dataDeserialized = JsonConvert.DeserializeObject<dynamic>(data);
+
+            foreach (var i in dataDeserialized)
+            {
+                _gitLinks.Add(i.name.ToString(), i.clone_url.ToString());
+            }
+            
+            return _gitLinks;
         }
     }
 }

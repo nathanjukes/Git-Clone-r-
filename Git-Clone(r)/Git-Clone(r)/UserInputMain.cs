@@ -8,7 +8,7 @@ using Newtonsoft.Json;
 
 namespace Git_Clone_r_
 {
-    class Program
+    class UserInputMain
     {
         private static Dictionary<string, string> userSettings;
 
@@ -23,39 +23,43 @@ namespace Git_Clone_r_
             {
                 DisplayMenu();
 
-                int selection = Convert.ToInt32(Console.ReadLine());
+                string selection = Console.ReadLine();
+               
 
                 switch (selection)
                 {
-                    case 1:
-                        //GetRepos.CloneRepos("public");
+                    case "1":
+                        GetRepos.CloneRepos("private", userSettings);
                         break;
-                    case 2:
+                    case "2":
                         GetRepos.CloneRepos("public", userSettings);
                         break;
-                    case 3:
+                    case "3":
                         GetRepos.PromptForRepoLink(userSettings);
                         break;
-                    case 4:
+                    case "4":
                         GetRepos.CloneRepos("self", userSettings);
                         break;
-                    case 5:
+                    case "5":
                         UserInputHandling.SetDefaultDir(userSettings);
                         WaitForUser();
                         break;
-                    case 6:
+                    case "6":
                         UserInputHandling.CheckDefaultDir(userSettings);
                         WaitForUser();
                         break;
-                    case 7:
+                    case "7":
                         UserInputHandling.OpenDefDir(userSettings);
                         break;
-                    case 8:
+                    case "8":
                         UserInputHandling.SetDefaultUser(userSettings);
                         WaitForUser();
                         break;
-                    case 11:
+                    case "11":
                         menuActive = false;
+                        break;
+                    default:
+                        Console.WriteLine("Please enter a corresponding value");
                         break;
                 }
             }
@@ -101,7 +105,7 @@ namespace Git_Clone_r_
                 "1: Clone your repositories (Includes the private repos)\n    " +
                 "2: Clone a user's repositories\n    " + //^Have an inside one saying which repo to clone and then have an X for all
                 "3: Clone a selected repository\n    " +
-                "4: Clone from the default user\n    " +
+                "4: Clone from the default user (Public repos only)\n    " +
                 "5: Set default clone directory\n    " +
                 "6: Check default clone directory\n    " + //Does an 'ls' on the dir
                 "7: Open default clone directory\n    " +
@@ -132,6 +136,7 @@ namespace Git_Clone_r_
         {
             Console.WriteLine("\nPress any key to continue");
             Console.ReadKey();
+            Console.Clear();
         }
     }
 }

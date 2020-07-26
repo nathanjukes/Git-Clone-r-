@@ -12,7 +12,7 @@ namespace Git_Clone_r_
     {
         public static void SetDefaultDir(Dictionary<string, string> userSettings)
         {
-            Console.WriteLine("Please input the directory you wish to set as the default for cloning: ");
+            Console.WriteLine("\nPlease input the directory you wish to set as the default for cloning: ");
             string dir = Console.ReadLine();
 
             Directory.CreateDirectory(dir); //Creates if it doesn't already exist
@@ -31,11 +31,13 @@ namespace Git_Clone_r_
            
             string serializedUserSettings = JsonConvert.SerializeObject(userSettings);
             File.WriteAllText("UserSettings.json", serializedUserSettings);
+
+            Console.WriteLine("\nDefault Directory set");
         }
 
         public static void SetDefaultUser(Dictionary<string, string> userSettings)
         {
-            Console.WriteLine("Please input the user you wish to set as the default for cloning from: ");
+            Console.WriteLine("\nPlease input the user you wish to set as the default for cloning from: ");
             string username = Console.ReadLine();
 
             try
@@ -52,6 +54,8 @@ namespace Git_Clone_r_
 
             string serializedUserSettings = JsonConvert.SerializeObject(userSettings);
             File.WriteAllText("UserSettings.json", serializedUserSettings);
+
+            Console.WriteLine("\nDefault User set");
         }
 
         public static void OpenDefDir(Dictionary<string, string> userSettings)
@@ -59,7 +63,7 @@ namespace Git_Clone_r_
             if (!CheckIfDirNull(userSettings))
             {
                 Process process = Process.Start("explorer.exe", $@"/open, {userSettings["defaultDirectory"]}");
-                Console.WriteLine("Default Directory opened in file explorer.\n");
+                Console.WriteLine("\nDefault Directory opened in file explorer.\n");
                 process.WaitForExit();
             }
         }
