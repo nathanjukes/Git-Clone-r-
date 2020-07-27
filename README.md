@@ -15,7 +15,7 @@
   <a href="https://github.com/nathanjukes/Git-Clone-r-/blob/master/LICENSE.md">
     <img src="https://img.shields.io/github/license/Naereen/StrapDown.js.svg">
   </a>
-  <a href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fgithub.com%2Fnathanjukes%2FGit-Clone--r-&text=Check%20out%20this%20Github%20Clone%20Tool%20on%20Github:">
+  <a href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fgithub.com%2Fnathanjukes%2FGit-Clone-r-&text=Check%20out%20this%20Github%20Clone%20Tool%20on%20Github:">
     <img src="https://img.shields.io/twitter/url/http/shields.io.svg?style=social">
   </a>
 </p>
