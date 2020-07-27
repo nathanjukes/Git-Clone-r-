@@ -32,7 +32,7 @@ Or download here:
 
 ## Change Log
 
-- 1.00 - Released XX/XX/XX
+- 1.00 - Released 27/07/20
 
 
 ## Configuration

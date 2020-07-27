@@ -32,14 +32,25 @@ namespace Git_Clone_r_.API_Classes
             }
             else if (type == "private")
             {
-                _gitLinks = GetPrivateRepos(_userSettings["defaultUsername"]);
-
-                if (CheckForNullRepos())
+                if(string.IsNullOrWhiteSpace(_userSettings["clientID"]) || string.IsNullOrWhiteSpace(_userSettings["clientSecret"]))
                 {
+                    Console.WriteLine("UserSettings.json not configured");
+                    Console.WriteLine("Press any key to continue");
+                    Console.ReadKey();
+                    Console.Clear();
                     return;
                 }
+                else
+                {
+                    _gitLinks = GetPrivateRepos(_userSettings["defaultUsername"]);
 
-                PromptForUserChoice();
+                    if (CheckForNullRepos())
+                    {
+                        return;
+                    }
+
+                    PromptForUserChoice();
+                }  
             }
             else if (type == "self")
             {

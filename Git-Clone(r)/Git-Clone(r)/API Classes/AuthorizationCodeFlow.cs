@@ -31,6 +31,7 @@ namespace Git_Clone_r_.API_Classes
                 return accessToken;
             }
 
+            Console.WriteLine("Error: Not authenticated");
             return "";
         }
 
