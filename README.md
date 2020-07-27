@@ -26,7 +26,7 @@ Head to this directory to find the application:
 "C:\Git-Clone-r-\Application" 
 ```
 Or download here:
-[(64-bit)](https://github.com/nathanjukes/Git-Clone-r-/blob/master/Git-Clone(r)/Git-Clone(r)/bin/Release/Application.zip) and run the `Git-Clone(r).exe` after configuring the `UserSettings.json`
+[(64-bit)](https://github.com/nathanjukes/Git-Clone-r-/raw/master/Git-Clone(r)/Git-Clone(r)/bin/Release/Application.zip) and run the `Git-Clone(r).exe` after configuring the `UserSettings.json`
 
 ![Homescreen Image](https://github.com/nathanjukes/Git-Clone-r-/blob/master/Assets/Homescreen.JPG)
 
