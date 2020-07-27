@@ -1,0 +1,16 @@
+E:\coding\GitHub\Repos\Git-Clone-r-\Git-Clone(r)\Git-Clone(r)\bin\Release\netcoreapp3.1\UserSettings.json
+E:\coding\GitHub\Repos\Git-Clone-r-\Git-Clone(r)\Git-Clone(r)\bin\Release\netcoreapp3.1\Git-Clone(r).exe
+E:\coding\GitHub\Repos\Git-Clone-r-\Git-Clone(r)\Git-Clone(r)\bin\Release\netcoreapp3.1\Git-Clone(r).deps.json
+E:\coding\GitHub\Repos\Git-Clone-r-\Git-Clone(r)\Git-Clone(r)\bin\Release\netcoreapp3.1\Git-Clone(r).runtimeconfig.json
+E:\coding\GitHub\Repos\Git-Clone-r-\Git-Clone(r)\Git-Clone(r)\bin\Release\netcoreapp3.1\Git-Clone(r).runtimeconfig.dev.json
+E:\coding\GitHub\Repos\Git-Clone-r-\Git-Clone(r)\Git-Clone(r)\bin\Release\netcoreapp3.1\Git-Clone(r).dll
+E:\coding\GitHub\Repos\Git-Clone-r-\Git-Clone(r)\Git-Clone(r)\bin\Release\netcoreapp3.1\Git-Clone(r).pdb
+E:\coding\GitHub\Repos\Git-Clone-r-\Git-Clone(r)\Git-Clone(r)\bin\Release\netcoreapp3.1\Newtonsoft.Json.dll
+E:\coding\GitHub\Repos\Git-Clone-r-\Git-Clone(r)\Git-Clone(r)\obj\Release\netcoreapp3.1\Git-Clone(r).csprojAssemblyReference.cache
+E:\coding\GitHub\Repos\Git-Clone-r-\Git-Clone(r)\Git-Clone(r)\obj\Release\netcoreapp3.1\Git-Clone(r).AssemblyInfoInputs.cache
+E:\coding\GitHub\Repos\Git-Clone-r-\Git-Clone(r)\Git-Clone(r)\obj\Release\netcoreapp3.1\Git-Clone(r).AssemblyInfo.cs
+E:\coding\GitHub\Repos\Git-Clone-r-\Git-Clone(r)\Git-Clone(r)\obj\Release\netcoreapp3.1\Git-Clone(r).csproj.CoreCompileInputs.cache
+E:\coding\GitHub\Repos\Git-Clone-r-\Git-Clone(r)\Git-Clone(r)\obj\Release\netcoreapp3.1\Git-Clone(r).csproj.CopyComplete
+E:\coding\GitHub\Repos\Git-Clone-r-\Git-Clone(r)\Git-Clone(r)\obj\Release\netcoreapp3.1\Git-Clone(r).dll
+E:\coding\GitHub\Repos\Git-Clone-r-\Git-Clone(r)\Git-Clone(r)\obj\Release\netcoreapp3.1\Git-Clone(r).pdb
+E:\coding\GitHub\Repos\Git-Clone-r-\Git-Clone(r)\Git-Clone(r)\obj\Release\netcoreapp3.1\Git-Clone(r).genruntimeconfig.cache

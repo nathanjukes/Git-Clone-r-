@@ -29,16 +29,28 @@ namespace Git_Clone_r_
                 switch (selection)
                 {
                     case "1":
-                        GetRepos.CloneRepos("private", _userSettings);
+                        if(!UserInputHandling.CheckIfDirNull(_userSettings))
+                        {
+                            GetRepos.CloneRepos("private", _userSettings);
+                        }   
                         break;
                     case "2":
-                        GetRepos.CloneRepos("public", _userSettings);
+                        if (!UserInputHandling.CheckIfDirNull(_userSettings))
+                        {
+                            GetRepos.CloneRepos("public", _userSettings);
+                        }
                         break;
                     case "3":
-                        GetRepos.PromptForRepoLink(_userSettings);
+                        if (!UserInputHandling.CheckIfDirNull(_userSettings))
+                        {
+                            GetRepos.PromptForRepoLink(_userSettings);
+                        }
                         break;
                     case "4":
-                        GetRepos.CloneRepos("self", _userSettings);
+                        if (!UserInputHandling.CheckIfDirNull(_userSettings))
+                        {
+                            GetRepos.CloneRepos("self", _userSettings);
+                        }
                         break;
                     case "5":
                         UserInputHandling.SetDefaultDir(_userSettings);
@@ -46,7 +58,6 @@ namespace Git_Clone_r_
                         break;
                     case "6":
                         UserInputHandling.CheckDefaultDir(_userSettings);
-                        WaitForUser();
                         break;
                     case "7":
                         UserInputHandling.OpenDefDir(_userSettings);

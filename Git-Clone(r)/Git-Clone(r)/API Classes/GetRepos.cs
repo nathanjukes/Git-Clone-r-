@@ -49,9 +49,10 @@ namespace Git_Clone_r_.API_Classes
                 }
                 else
                 {
-                    Console.WriteLine("Error: No default user set");
+                    Console.WriteLine("\nError: No default user set");
+                    Console.WriteLine("Press any key to continue");
+                    Console.ReadKey();
                 }
-
 
                 if (CheckForNullRepos())
                 {
@@ -245,7 +246,7 @@ namespace Git_Clone_r_.API_Classes
 
         private static bool CheckForNullRepos()
         {
-            if (_gitLinks.Count == 0)
+            if (_gitLinks == null || _gitLinks.Count == 0)
             {
                 Console.WriteLine("No Repos Available");
                 return true;

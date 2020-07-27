@@ -95,7 +95,7 @@ namespace Git_Clone_r_
             }
         }
 
-        private static bool CheckIfDirNull(Dictionary<string, string> userSettings)
+        public static bool CheckIfDirNull(Dictionary<string, string> userSettings)
         {
             if (!string.IsNullOrWhiteSpace(userSettings["defaultDirectory"]))
             {
@@ -103,7 +103,10 @@ namespace Git_Clone_r_
             }
             else
             {
-                Console.WriteLine("Error: No default directory set");
+                Console.WriteLine("\nError: No default directory set");
+                Console.WriteLine("Press any key to continue");
+                Console.ReadKey();
+                Console.Clear();
                 return true;
             }
         }
