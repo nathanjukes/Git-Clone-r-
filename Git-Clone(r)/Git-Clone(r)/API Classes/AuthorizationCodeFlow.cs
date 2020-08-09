@@ -16,7 +16,7 @@ namespace Git_Clone_r_.API_Classes
         public static string ReturnOAuthToken(Dictionary<string, string> userSettings)
         {
             const string redirectURI = "http://localhost:29522/";
-            string authURL = $"https://github.com/login/oauth/authorize?client_id={userSettings["clientID"]}&redirect_uri={userSettings["defaultUsername"]}&login=&scope=repo";
+            string authURL = $"https://github.com/login/oauth/authorize?client_id={userSettings["clientID"]}&redirect_uri={redirectURI}&login={userSettings["defaultUsername"]}&scope=repo";
 
             Console.WriteLine("\nPlease check your web browser to authorize");
 
