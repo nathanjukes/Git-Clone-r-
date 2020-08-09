@@ -32,6 +32,7 @@ Or download here:
 
 ## Change Log
 
+- 1.01 - Bug fix for private repos
 - 1.00 - Released 27/07/20
 
 
